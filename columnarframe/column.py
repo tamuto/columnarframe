@@ -3,33 +3,27 @@ import pyarrow as pa
 
 class Column:
 
-    def __init__(self, parent, key, value):
-        self.parent = parent
-        self.key = key
-
+    def __init__(self, value):
         if isinstance(value, Column):
-            pass
-
-        if isinstance(value, pa.Array):
-            if self.parent.rows != len(value):
-                raise RuntimeError('different record count')
+            self.value = pa.array(value.to_list())
+        elif isinstance(value, pa.Array):
             self.value = pa.array(value.to_pylist())
         elif isinstance(value, list):
-            if self.parent.rows != len(value):
-                raise RuntimeError('different record count')
             self.value = pa.array(value)
         else:
-            self.value = pa.array([value] * self.parent.rows)
+            raise RuntimeError('unknown data type.')
 
     def __repr__(self):
         return self.value.__repr__()
 
-    def __add__(self, other):
-        pass
+    def __len__(self):
+        return len(self.value)
 
-    def __sub__(self, other):
-        pass
+    def to_list(self):
+        return self.value.to_pylist()
 
-    def __mul__(self, other):
-        print('aaa')
-        return self.__class__
+    def unique(self):
+        return Column(self.value.unique())
+
+    def apply(self, func):
+        return Column([func(d.as_py()) for d in self.value])
