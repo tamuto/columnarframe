@@ -1,3 +1,5 @@
+import csv
+
 from .column import Column
 
 
@@ -7,14 +9,13 @@ class ColumnarFrame:
         self.data = {}
         if data is not None:
             for k, v in data.items():
-                if self.rows == -1:
-                    self.rows = len(v)
-                else:
-                    self._check_length(v)
-                self.data[k] = Column(v)
+                self._check_length(v)
+                self.data[k] = Column(v, self.rows)
 
     def _check_length(self, v):
-        if self.rows != len(v):
+        if self.rows == -1:
+            self.rows = len(v)
+        elif self.rows != len(v):
             raise RuntimeError('different row count.')
 
     @property
@@ -28,7 +29,7 @@ class ColumnarFrame:
 
     def __setitem__(self, name, value):
         self._check_length(value)
-        self.data[name] = Column(value)
+        self.data[name] = Column(value, self.rows)
 
     def __repr__(self):
         return self.data.__repr__()
@@ -37,9 +38,29 @@ class ColumnarFrame:
         return self.rows
 
     def rename(self, columns):
-        # TODO
-        pass
+        ncf = ColumnarFrame(self.data)
+        for f, t in columns.items():
+            ncf.data[t] = ncf.data.pop(f)
+        return ncf
 
-    def to_csv(self, name, **kwargs):
-        # TODO
-        pass
+    def to_csv(
+            self, name, *, encoding='utf-8',
+            sep=',', na_rep='', index=False, header=True):
+        if isinstance(name, str):
+            with open(name, 'w', encoding=encoding) as f:
+                self._write_csv(f, sep, na_rep, index, header)
+        else:
+            self._write_csv(name, sep, na_rep, index, header)
+
+    def _write_csv(self, stream, sep, na_rep, _, header):
+        w = csv.writer(stream, delimiter=sep)
+        ncf = self
+        if na_rep != '':
+            ncf = ColumnarFrame()
+            for c in self.columns:
+                ncf[c] = self[c].apply(
+                    lambda x: x if x is not None else na_rep)
+        iters = [ncf.data[k] for k in ncf.data.keys()]
+        if header:
+            w.writerow(list(self.data.keys()))
+        w.writerows(zip(*iters))
