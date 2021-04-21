@@ -2,6 +2,12 @@ import csv
 from .frame import ColumnarFrame
 
 
+def make_key(idx, key):
+    if key is None or key == '':
+        return str(idx)
+    return key
+
+
 def read_csv(
         filename,
         encoding='utf-8',
@@ -29,7 +35,8 @@ def read_csv(
 
         data = None
         if header:
-            head = next(rit)
+            row = next(rit)
+            head = [make_key(idx, key) for idx, key in enumerate(row)]
             data = {key: [] for key in head}
 
         for row in rit:

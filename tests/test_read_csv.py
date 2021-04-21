@@ -14,10 +14,12 @@ class TestReadCSV(unittest.TestCase):
         self.assertEqual(len(cf), 6)
 
     def test_delimiter(self):
-        pass
+        cf1 = colf.read_csv('./data/test_data.csv')
+        cf2 = colf.read_csv('./data/test_data.tsv', delimiter='\t')
+        self.assertEqual(cf1['col1'].to_list(), cf2['col1'].to_list())
 
     def test_skiprows(self):
-        cf = colf.read_csv('./data/test_data.csv', header=False, skiprows=3)
+        cf = colf.read_csv('./data/test_data.csv', skiprows=2)
         self.assertEqual(cf['0'].to_list(), ['CCC', 'CCC', 'DDD'])
 
     def test_skipfooter(self):

@@ -1,0 +1,6 @@
+col1	col2	col3	col4
+AAA	1	2020-05-03	True
+	5	2021-05-03	False
+CCC	8		False
+CCC	3	2020-07-03	
+DDD		2020-05-25	True

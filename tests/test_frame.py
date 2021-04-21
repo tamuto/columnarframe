@@ -19,8 +19,11 @@ class TestFrame(unittest.TestCase):
 
     def test_to_csv(self):
         f = StringIO()
-        self.cf.to_csv(f, sep='\t', na_rep='\\N', index=False, header=True)
+        self.cf.to_csv(f, na_rep='\\N', index=False, header=True)
         # print(f.getvalue())
 
     def test_to_csv_file(self):
-        self.cf.to_csv('./data/output.csv', header=True)
+        self.cf.to_csv('./data/output.csv')
+
+    def test_to_csv_file_tsv(self):
+        self.cf.to_csv('./data/output.tsv', sep='\t', header=True)
