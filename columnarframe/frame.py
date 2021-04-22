@@ -28,7 +28,8 @@ class ColumnarFrame:
         return self.data[name]
 
     def __setitem__(self, name, value):
-        self._check_length(value)
+        if isinstance(value, list):
+            self._check_length(value)
         self.data[name] = Column(value, self.rows)
 
     def __repr__(self):
