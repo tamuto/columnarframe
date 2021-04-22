@@ -55,13 +55,15 @@ class ColumnarFrame:
 
     def _write_csv(self, stream, sep, na_rep, _, header):
         w = csv.writer(stream, delimiter=sep)
-        ncf = self
         if na_rep != '':
-            ncf = ColumnarFrame()
-            for c in self.columns:
-                ncf[c] = self[c].apply(
-                    lambda x: x if x is not None else na_rep)
-        iters = [ncf.data[k] for k in ncf.data.keys()]
+            iters = [
+                map(
+                    lambda x: x if x is not None else na_rep,
+                    val.to_list()
+                ) for val in self.data.values()]
+        else:
+            iters = [self.data[k] for k in self.data.keys()]
+
         if header:
             w.writerow(list(self.data.keys()))
         w.writerows(zip(*iters))
