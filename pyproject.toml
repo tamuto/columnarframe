@@ -4,6 +4,9 @@ version = "0.1.4"
 description = ""
 authors = ["tamuto <tamuto@infodb.jp>"]
 license = "Apache-2.0"
+readme = "README.md"
+homepage = "https://github.com/tamuto/columnarframe"
+repository = "https://github.com/tamuto/columnarframe"
 
 packages = [
     { include="columnarframe", from="." }
