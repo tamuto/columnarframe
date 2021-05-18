@@ -29,6 +29,6 @@ def read_excel(
             encoding=encoding,
             start_row=skiprows)
 
-        data = skip_footer(skipfooter)
+        data = skip_footer(data, skipfooter)
 
     return ColumnarFrame(data)
