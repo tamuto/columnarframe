@@ -15,6 +15,10 @@ packages = [
 [tool.poetry.dependencies]
 python = "^3.8"
 pyarrow = "^3.0.0"
+pyexcel = "^0.6.6"
+pyexcel-io = "^0.6.4"
+pyexcel-xls = "^0.6.2"
+pyexcel-xlsx = "^0.6.0"
 
 [tool.poetry.dev-dependencies]
 
