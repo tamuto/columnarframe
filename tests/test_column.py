@@ -6,7 +6,11 @@ import columnarframe as colf
 class TestColumn(unittest.TestCase):
 
     def setUp(self):
-        self.cf = colf.read_csv('./data/test_data.csv')
+        self.cf = colf.ColumnarFrame({
+            'col1': ['AAA', None, 'CCC', 'CCC', 'DDD'],
+            'col2': ['1', '5', '8', '3', None],
+            'col4': ['True', 'False', 'False', None, 'True'],
+        })
 
     def test_to_list(self):
         self.assertEqual(

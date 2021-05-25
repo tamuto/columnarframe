@@ -6,8 +6,16 @@ import columnarframe as colf
 class TestConcat(unittest.TestCase):
 
     def setUp(self):
-        self.cf1 = colf.read_csv('./data/test_data.csv')
-        self.cf2 = colf.read_csv('./data/test_data2.csv')
+        self.cf1 = colf.ColumnarFrame({
+            'col1': ['AAA', None, 'CCC', 'CCC', 'DDD'],
+            'col2': ['1', '5', '8', '3', None],
+            'col4': ['True', 'False', 'False', None, 'True'],
+        })
+        self.cf2 = colf.ColumnarFrame({
+            'col1': ['QQQ'],
+            'col2': [None],
+            'col4': ['Test']
+        })
 
     def test_concat(self):
         cf = colf.concat(self.cf1, self.cf2)

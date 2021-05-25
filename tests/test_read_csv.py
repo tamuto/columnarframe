@@ -4,10 +4,12 @@ import columnarframe as colf
 
 
 class TestReadCSV(unittest.TestCase):
-
     def test_data(self):
         cf = colf.read_csv('./data/test_data.csv')
         self.assertEqual(len(cf), 5)
+        self.assertEqual(
+            cf['col1'].to_list(),
+            ['AAA', None, 'CCC', 'CCC', 'DDD'])
 
     def test_header(self):
         cf = colf.read_csv('./data/test_data.csv', header=False)

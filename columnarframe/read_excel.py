@@ -4,14 +4,15 @@ import pyexcel as pe
 from .frame import ColumnarFrame
 from .utils import skip_footer
 
+
 def read_excel(
-        filename,
-        file_type='xlsx',
-        encoding='utf-8',
-        header=0,
-        skiprows=0,
-        skipfooter=0,
-    ):
+    filename,
+    file_type='xlsx',
+    encoding='utf-8',
+    header=0,
+    skiprows=0,
+    skipfooter=0,
+):
     with open(filename, 'rb') as f:
         stream = io.BytesIO(f.read())
 
@@ -30,5 +31,7 @@ def read_excel(
             start_row=skiprows)
 
         data = skip_footer(data, skipfooter)
+
+        print(data)
 
     return ColumnarFrame(data)

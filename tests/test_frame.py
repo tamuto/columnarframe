@@ -7,7 +7,11 @@ import columnarframe as colf
 class TestFrame(unittest.TestCase):
 
     def setUp(self):
-        self.cf = colf.read_csv('./data/test_data.csv')
+        self.cf = colf.ColumnarFrame({
+            'col1': ['aaa', 'bbb'],
+            'col2': ['ccc', 'ddd'],
+            'col3': ['eee', 'fff']
+        })
 
     def test_getitem(self):
         cf2 = self.cf[['col1', 'col2']]
@@ -15,7 +19,7 @@ class TestFrame(unittest.TestCase):
 
     def test_setitem(self):
         self.cf['abc'] = 5
-        self.assertEqual(self.cf['abc'].to_list(), [5, 5, 5, 5, 5])
+        self.assertEqual(self.cf['abc'].to_list(), [5, 5])
 
     def test_rename(self):
         cf2 = self.cf.rename(columns={'col2': 'renamed'})
