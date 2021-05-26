@@ -17,19 +17,19 @@ poetry run python -m unittest discover
 * build
 
 ```
-poerty build
+poetry build
 ```
 
 * publish(Test)
 
 ```
-poertry publish -r testpypi 
+poetry publish -r testpypi
 ```
 
 * public(real)
 
 ```
-poerty publish
+poetry publish
 ```
 
 * lib install
