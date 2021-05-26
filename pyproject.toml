@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "columnarframe"
-version = "0.1.5"
+version = "0.1.6"
 description = ""
 authors = ["tamuto <tamuto@infodb.jp>"]
 license = "Apache-2.0"
