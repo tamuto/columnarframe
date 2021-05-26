@@ -1,8 +1,9 @@
-import io
-import pyexcel as pe
+import csv
 
 from .frame import ColumnarFrame
 from .utils import skip_footer
+from .utils import make_key
+
 
 def read_csv(
         filename,
@@ -15,25 +16,36 @@ def read_csv(
         doublequote=True,
         escapechar=None,
         ):
-    
-    with open(filename, 'r') as f:
-        stream = io.StringIO(f.read())
 
-        data = pe.get_dict(
-            file_stream=stream,
-            file_type='csv',
-            encoding=encoding,
+    with open(filename, 'r', encoding=encoding) as f:
+        csvdata = csv.reader(
+            f,
             delimiter=delimiter,
-            start_row=skiprows,
             quotechar=quotechar,
             doublequote=doublequote,
-            escapechar=escapechar,
-            auto_detect_float=False,
-            auto_detect_int=False,
-            auto_detect_datetime=False)
-    
-        # TODO: header
+            escapechar=escapechar)
 
-        data = skip_footer(skipfooter)
+        rit = iter(csvdata)
+        if skiprows > 0:
+            for _ in range(skiprows):
+                next(rit)
+
+        data = None
+        if header:
+            row = next(rit)
+            head = [make_key(idx, key) for idx, key in enumerate(row)]
+            data = {key: [] for key in head}
+
+        for row in rit:
+            if data is None:
+                head = [str(i) for i in range(len(row))]
+                data = {key: [] for key in head}
+
+            for key, value in zip(head, row):
+                if len(value) == 0:
+                    value = None
+                data[key].append(value)
+
+    data = skip_footer(data, skipfooter)
 
     return ColumnarFrame(data)
