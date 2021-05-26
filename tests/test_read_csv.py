@@ -14,6 +14,9 @@ class TestReadCSV(unittest.TestCase):
     def test_header(self):
         cf = colf.read_csv('./data/test_data.csv', header=False)
         self.assertEqual(len(cf), 6)
+        self.assertEqual(
+            cf['0'].to_list(),
+            ['col1', 'AAA', None, 'CCC', 'CCC', 'DDD'])
 
     def test_delimiter(self):
         cf1 = colf.read_csv('./data/test_data.csv')

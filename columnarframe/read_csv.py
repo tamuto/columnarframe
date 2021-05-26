@@ -1,11 +1,8 @@
 import csv
+
 from .frame import ColumnarFrame
-
-
-def make_key(idx, key):
-    if key is None or key == '':
-        return str(idx)
-    return key
+from .utils import skip_footer
+from .utils import make_key
 
 
 def read_csv(
@@ -49,7 +46,6 @@ def read_csv(
                     value = None
                 data[key].append(value)
 
-        if skipfooter > 0:
-            data = {k: v[:-skipfooter] for k, v in data.items()}
+    data = skip_footer(data, skipfooter)
 
     return ColumnarFrame(data)
