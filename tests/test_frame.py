@@ -35,3 +35,11 @@ class TestFrame(unittest.TestCase):
 
     def test_to_csv_file_tsv(self):
         self.cf.to_csv('./data/output.tsv', sep='\t', header=True)
+
+    def test_assign(self):
+        cf2 = self.cf.assign(
+            col4='1',
+            col5=['111', '222']
+        )
+        self.assertEqual(cf2['col5'].to_list(), ['111', '222'])
+        self.assertEqual(self.cf.columns, ['col1', 'col2', 'col3'])
