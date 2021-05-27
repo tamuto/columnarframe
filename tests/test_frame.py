@@ -43,3 +43,8 @@ class TestFrame(unittest.TestCase):
         )
         self.assertEqual(cf2['col5'].to_list(), ['111', '222'])
         self.assertEqual(self.cf.columns, ['col1', 'col2', 'col3'])
+
+    def test_iter(self):
+        for c in self.cf:
+            self.assertEqual(c, {'col1': 'aaa', 'col2': 'ccc', 'col3': 'eee'})
+            break
