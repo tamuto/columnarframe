@@ -74,3 +74,10 @@ class ColumnarFrame:
         for k, v in kwargs.items():
             ncf[k] = v
         return ncf
+
+    def __iter__(self):
+        data = iter([
+            {k: v for k, v in zip(self.data.keys(), c)}
+            for c in zip(*self.data.values())
+        ])
+        return data
