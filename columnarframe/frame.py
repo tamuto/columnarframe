@@ -9,7 +9,8 @@ class ColumnarFrame:
         self.data = {}
         if data is not None:
             for k, v in data.items():
-                self._check_length(v)
+                if isinstance(v, list):
+                    self._check_length(v)
                 self.data[k] = Column(v, self.rows)
 
     def _check_length(self, v):
@@ -67,3 +68,9 @@ class ColumnarFrame:
         if header:
             w.writerow(list(self.data.keys()))
         w.writerows(zip(*iters))
+
+    def assign(self, **kwargs):
+        ncf = ColumnarFrame(self.data)
+        for k, v in kwargs.items():
+            ncf[k] = v
+        return ncf
