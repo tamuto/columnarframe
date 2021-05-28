@@ -81,3 +81,12 @@ class ColumnarFrame:
             for c in zip(*self.data.values())
         ])
         return data
+
+    def remove(self, func):
+        data = {k: [] for k in self.data.keys()}
+        for c in zip(*self.data.values()):
+            row = {k: v for k, v in zip(self.data.keys(), c)}
+            if not func(row):
+                for k, v in row.items():
+                    data[k].append(v)
+        return ColumnarFrame(data)
