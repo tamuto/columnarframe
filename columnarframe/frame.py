@@ -9,6 +9,8 @@ class ColumnarFrame:
         self.data = {}
         if data is not None:
             for k, v in data.items():
+                if isinstance(v, Column):
+                    v = v.to_list()
                 if isinstance(v, list):
                     self._check_length(v)
                 self.data[k] = Column(v, self.rows)
@@ -29,6 +31,8 @@ class ColumnarFrame:
         return self.data[name]
 
     def __setitem__(self, name, value):
+        if isinstance(value, Column):
+            value = value.to_list()
         if isinstance(value, list):
             self._check_length(value)
         self.data[name] = Column(value, self.rows)
