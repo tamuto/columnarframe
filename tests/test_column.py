@@ -43,10 +43,14 @@ class TestColumn(unittest.TestCase):
         )
 
     def test_apply3(self):
+        def conv(value, target):
+            return value if value == target else None
+
         self.cf['col1'] = self.cf['col1'].apply(
-            lambda x: x if x != 'AAA' else None
+            (conv, 'CCC'),
+            lambda x: x if x is not None else ''
         )
         self.assertEqual(
             self.cf['col1'].to_list(),
-            [None, None, 'CCC', 'CCC', 'DDD']
+            ['', '', 'CCC', 'CCC', '']
         )

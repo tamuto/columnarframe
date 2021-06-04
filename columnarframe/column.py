@@ -30,5 +30,14 @@ class Column:
     def unique(self):
         return Column(self.value.unique())
 
-    def apply(self, func):
-        return Column([func(d.as_py()) for d in self.value])
+    def apply(self, *funcs):
+        def call_chain(x):
+            value = x
+            for func in funcs:
+                if isinstance(func, tuple):
+                    value = func[0](value, *func[1:])
+                else:
+                    value = func(value)
+            return value
+
+        return Column([call_chain(d.as_py()) for d in self.value])
