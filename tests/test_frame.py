@@ -1,4 +1,5 @@
 import unittest
+import csv
 from io import StringIO
 
 import columnarframe as colf
@@ -27,7 +28,12 @@ class TestFrame(unittest.TestCase):
 
     def test_to_csv(self):
         f = StringIO()
-        self.cf.to_csv(f, na_rep='\\N', index=False, header=True)
+        self.cf.to_csv(
+            f,
+            na_rep='\\N',
+            index=False,
+            header=True,
+            quoting=csv.QUOTE_NONNUMERIC)
         # print(f.getvalue())
 
     def test_to_csv_file(self):
