@@ -1,4 +1,4 @@
-__version__ = '0.1.11'
+__version__ = '0.1.12'
 
 from .frame import ColumnarFrame  # noqa
 from .read_csv import read_csv  # noqa

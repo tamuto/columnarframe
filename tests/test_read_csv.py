@@ -30,3 +30,11 @@ class TestReadCSV(unittest.TestCase):
     def test_skipfooter(self):
         cf = colf.read_csv('./data/test_data.csv', skipfooter=2)
         self.assertEqual(cf['col4'].to_list(), ['True', 'False', 'False'])
+
+    def test_issue21_1(self):
+        cf = colf.read_csv('./data/issue21_1.csv')
+        self.assertEqual(cf['head2'].to_list(), [None, None])
+
+    def test_issue21_2(self):
+        cf = colf.read_csv('./data/issue21_2.csv')
+        self.assertEqual(cf['head1'].to_list(), ['111', '222'])

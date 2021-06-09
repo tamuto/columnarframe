@@ -1,5 +1,7 @@
 import csv
 
+from itertools import zip_longest
+
 from .frame import ColumnarFrame
 from .utils import skip_footer
 from .utils import make_key
@@ -41,8 +43,10 @@ def read_csv(
                 head = [str(i) for i in range(len(row))]
                 data = {key: [] for key in head}
 
-            for key, value in zip(head, row):
-                if len(value) == 0:
+            for key, value in zip_longest(head, row):
+                if key is None:
+                    continue
+                if value is not None and len(value) == 0:
                     value = None
                 data[key].append(value)
 
