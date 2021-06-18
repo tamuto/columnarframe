@@ -52,15 +52,15 @@ class ColumnarFrame:
     def to_csv(
             self, name, *, encoding='utf-8',
             sep=',', na_rep='', index=False, header=True,
-            quoting=csv.QUOTE_MINIMAL):
+            quoting=csv.QUOTE_MINIMAL, lineterminator='\n'):
         if isinstance(name, str):
             with open(name, 'w', encoding=encoding) as f:
-                self._write_csv(f, sep, na_rep, index, header, quoting)
+                self._write_csv(f, sep, na_rep, index, header, quoting, lineterminator)
         else:
-            self._write_csv(name, sep, na_rep, index, header, quoting)
+            self._write_csv(name, sep, na_rep, index, header, quoting, lineterminator)
 
-    def _write_csv(self, stream, sep, na_rep, _, header, quoting):
-        w = csv.writer(stream, delimiter=sep, quoting=quoting)
+    def _write_csv(self, stream, sep, na_rep, _, header, quoting, lineterminator):
+        w = csv.writer(stream, delimiter=sep, quoting=quoting, lineterminator=lineterminator)
         if na_rep != '':
             iters = [
                 map(
