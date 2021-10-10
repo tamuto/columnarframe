@@ -54,3 +54,6 @@ class TestFrame(unittest.TestCase):
         for c in self.cf:
             self.assertEqual(c, {'col1': 'aaa', 'col2': 'ccc', 'col3': 'eee'})
             break
+
+    def test_to_dict(self):
+        self.cf.to_dict()
