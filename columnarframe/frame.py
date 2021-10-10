@@ -74,6 +74,11 @@ class ColumnarFrame:
             w.writerow(list(self.data.keys()))
         w.writerows(zip(*iters))
 
+    def to_dict(self, orientied='records'):
+        columns = self.data.keys()
+        data = [{c: d for c, d in zip(columns, d)} for d in zip(*self.data.values())]
+        return data
+
     def assign(self, **kwargs):
         ncf = ColumnarFrame(self.data)
         for k, v in kwargs.items():
