@@ -74,7 +74,7 @@ class ColumnarFrame:
             w.writerow(list(self.data.keys()))
         w.writerows(zip(*iters))
 
-    def to_dict(self, orientied='records'):
+    def to_dict(self, orient='records'):
         columns = self.data.keys()
         data = [{c: d for c, d in zip(columns, d)} for d in zip(*self.data.values())]
         return data
