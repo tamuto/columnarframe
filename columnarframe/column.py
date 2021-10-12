@@ -41,3 +41,15 @@ class Column:
             return value
 
         return Column([call_chain(d.as_py()) for d in self.value])
+
+    def fillin(self, values, func):
+        def call_func(x, val):
+            if isinstance(func, tuple):
+                value = func[0](x, *func[1:], val)
+            else:
+                value = func(x, val)
+            return value
+
+        return Column([
+                call_func(x.as_py(), val)
+                for x, val in zip(self.value, values)])

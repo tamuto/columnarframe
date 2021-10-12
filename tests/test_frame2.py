@@ -16,3 +16,7 @@ class TestFrame2(unittest.TestCase):
         cf = colf.read_csv('./data/test_data.csv')
         cf2 = cf.remove(lambda x: x['col1'] == 'CCC')
         self.assertEqual(cf2['col1'].to_list(), ['AAA', None, 'DDD'])
+
+    def test_len(self):
+        cf = colf.ColumnarFrame({})
+        self.assertEqual(len(cf), 0)
