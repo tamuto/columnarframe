@@ -41,7 +41,7 @@ class ColumnarFrame:
         return self.data.__repr__()
 
     def __len__(self):
-        return self.rows
+        return self.rows if self.rows >= 0 else 0
 
     def rename(self, columns):
         ncf = ColumnarFrame(self.data)
