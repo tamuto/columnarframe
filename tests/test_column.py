@@ -54,3 +54,9 @@ class TestColumn(unittest.TestCase):
             self.cf['col1'].to_list(),
             ['', '', 'CCC', 'CCC', '']
         )
+
+    def test_fillin(self):
+        self.cf['col1'] = self.cf['col1'].fillin(self.cf['col2'], lambda x, val: x if x is not None else val)
+        self.assertEqual(
+            self.cf['col1'].to_list(),
+            ['AAA', '5', 'CCC', 'CCC', 'DDD'])
