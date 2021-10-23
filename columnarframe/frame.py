@@ -1,5 +1,7 @@
 import csv
 
+from collections import Counter
+
 from .column import Column
 
 
@@ -100,3 +102,30 @@ class ColumnarFrame:
                 for k, v in row.items():
                     data[k].append(v)
         return ColumnarFrame(data)
+
+    def counter(self, columns):
+        cols = {c: self.data[c] for c in columns}
+        return Counter(zip(*cols.values()))
+
+    def unique(self, columns):
+        cols = {c: self.data[c] for c in columns}
+        return {c for c in zip(*cols.values())}
+
+    def tree(self, keys, key_cols):
+        data = {k: [] for k in keys}
+        for c in self:
+            key = tuple([c[col] for col in key_cols])
+            data[key].append(c)
+        return data
+
+    def summary(self, keys, key_cols, **kwargs):
+        data = self.tree(keys, key_cols)
+        vals = {k: [] for k in [*key_cols, *kwargs.keys()]}
+
+        for k, v in data.items():
+            for kc, cv in zip(key_cols, k):
+                vals[kc].append(cv)
+            for kw, func in kwargs.items():
+                vals[kw].append(func(v))
+
+        return ColumnarFrame(vals)
