@@ -5,7 +5,7 @@ import columnarframe as colf
 
 class TestReadExcel(unittest.TestCase):
     def test_data_xlsx(self):
-        cf = colf.read_excel('./data/test_data.xlsx')
+        cf = colf.read_excel('./data/test_data.xlsx', sheet='test_data')
         self.assertEqual(len(cf), 5)
         self.assertEqual(
             cf['col1'].to_list(),
@@ -38,7 +38,7 @@ class TestReadExcel(unittest.TestCase):
         )
 
     def test_data_xls(self):
-        cf = colf.read_excel('./data/test_data.xls', file_type='xls')
+        cf = colf.read_excel('./data/test_data.xls', file_type='xls', sheet='test_data')
         self.assertEqual(len(cf), 5)
 
     def test_header_xls(self):

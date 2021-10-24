@@ -45,7 +45,7 @@ def read_xlsx(filename, sheet, skiprows, skipfooter, header, datefmt):
     if sheet is None:
         ws = wb.active
     else:
-        pass
+        ws = wb[sheet]
 
     data = {}
     for idx, r in enumerate(ws.columns):
@@ -91,7 +91,6 @@ def read_xls(filename, sheet, skiprows, skipfooter, header, datefmt):
         raise RuntimeError('Unknown data type.')
 
     wb = open_workbook(filename)
-
     if sheet is None:
         ws = wb.sheets()[0]
     else:
