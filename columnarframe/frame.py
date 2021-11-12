@@ -129,3 +129,17 @@ class ColumnarFrame:
                 vals[kw].append(func(v))
 
         return ColumnarFrame(vals)
+
+    def build(self, keys, key_cols, cols, builder):
+        data = self.tree(keys, key_cols)
+        vals = {k: [] for k in [*key_cols, *cols]}
+
+        for k, v in data.items():
+            res = builder(k, v)
+            for r in res:
+                for kc, cv in zip(key_cols, k):
+                    vals[kc].append(cv)
+                for c in cols:
+                    vals[c].append(r[c])
+
+        return ColumnarFrame(vals)

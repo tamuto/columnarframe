@@ -66,3 +66,61 @@ class TestFrame2(unittest.TestCase):
         keys = cf.unique(['Pclass', 'Sex'])
         smry = cf.summary(keys, ['Pclass', 'Sex'], test=test)
         self.assertEqual(len(smry), 6)
+
+    def test_build(self):
+        def builder(key, value):
+            age20 = [None, None]
+            age30 = [None, None]
+            age40 = [None, None]
+            ageOver = [None, None]
+            for v in value:
+                if v['Age'] is None:
+                    continue
+                if float(v['Age']) <= 20:
+                    if age20[0] is None or float(age20[0]) > float(v['Age']):
+                        age20[0] = v['Age']
+                    if age20[1] is None or float(age20[1]) < float(v['Age']):
+                        age20[1] = v['Age']
+                elif float(v['Age']) <= 30:
+                    if age30[0] is None or float(age30[0]) > float(v['Age']):
+                        age30[0] = v['Age']
+                    if age30[1] is None or float(age30[1]) < float(v['Age']):
+                        age30[1] = v['Age']
+                elif float(v['Age']) <= 40:
+                    if age40[0] is None or float(age40[0]) > float(v['Age']):
+                        age40[0] = v['Age']
+                    if age40[1] is None or float(age40[1]) < float(v['Age']):
+                        age40[1] = v['Age']
+                else:
+                    if ageOver[0] is None or float(ageOver[0]) > float(v['Age']):
+                        ageOver[0] = v['Age']
+                    if ageOver[1] is None or float(ageOver[1]) < float(v['Age']):
+                        ageOver[1] = v['Age']
+
+            return [
+                {
+                    'Group': '20',
+                    'MinAge': age20[0],
+                    'MaxAge': age20[1]
+                },
+                {
+                    'Group': '30',
+                    'MinAge': age30[0],
+                    'MaxAge': age30[1]
+                },
+                {
+                    'Group': '40',
+                    'MinAge': age40[0],
+                    'MaxAge': age40[1]
+                },
+                {
+                    'Group': 'Over',
+                    'MinAge': ageOver[0],
+                    'MaxAge': ageOver[1]
+                },
+            ]
+
+        cf = colf.read_csv('./data/titanic.csv')
+        keys = cf.unique(['Pclass', 'Sex'])
+        bcf = cf.build(keys, ['Pclass', 'Sex'], ['Group', 'MaxAge', 'MinAge'], builder)
+        self.assertEqual(len(bcf), 24)
