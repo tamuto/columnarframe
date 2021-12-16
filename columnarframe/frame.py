@@ -88,10 +88,7 @@ class ColumnarFrame:
         return ncf
 
     def __iter__(self):
-        data = iter([
-            {k: v for k, v in zip(self.data.keys(), c)}
-            for c in zip(*self.data.values())
-        ])
+        data = iter(self.to_dict())
         return data
 
     def remove(self, func):
@@ -143,3 +140,10 @@ class ColumnarFrame:
                     vals[c].append(r[c])
 
         return ColumnarFrame(vals)
+
+    def sort(self, key):
+        d = self.to_dict()
+        d = sorted(d, key=key)
+        d = {k: [v[k] for v in d] for k in self.data.keys()}
+
+        return ColumnarFrame(d)
