@@ -1,15 +1,18 @@
 import pyarrow as pa
 
 
-class Column:
+def to_str(v):
+    return str(v) if v is not None else None
 
+
+class Column:
     def __init__(self, value, rows=None):
         if isinstance(value, Column):
             self.value = pa.array(value.to_list())
         elif isinstance(value, pa.Array):
             self.value = pa.array(value.to_pylist())
         elif isinstance(value, list):
-            self.value = pa.array(value)
+            self.value = pa.array(to_str(v) for v in value)
         elif rows is not None:
             self.value = pa.array([value] * rows)
         else:

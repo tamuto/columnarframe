@@ -60,3 +60,12 @@ class TestColumn(unittest.TestCase):
         self.assertEqual(
             self.cf['col1'].to_list(),
             ['AAA', '5', 'CCC', 'CCC', 'DDD'])
+
+    def test_any_type(self):
+        fcf = colf.ColumnarFrame({
+            'col1': ['1', 5, 8.5, None]
+        })
+        self.assertEqual(
+            fcf['col1'].to_list(),
+            ['1', '5', '8.5', None]
+        )
