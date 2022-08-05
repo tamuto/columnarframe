@@ -14,7 +14,7 @@ class Column:
         elif isinstance(value, list):
             self.value = pa.array(to_str(v) for v in value)
         elif rows is not None:
-            self.value = pa.array([value] * rows)
+            self.value = pa.array([to_str(value)] * rows)
         else:
             raise RuntimeError('unknown data.')
 

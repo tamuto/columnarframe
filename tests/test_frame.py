@@ -20,7 +20,7 @@ class TestFrame(unittest.TestCase):
 
     def test_setitem(self):
         self.cf['abc'] = 5
-        self.assertEqual(self.cf['abc'].to_list(), [5, 5])
+        self.assertEqual(self.cf['abc'].to_list(), ['5', '5'])
 
     def test_rename(self):
         cf2 = self.cf.rename(columns={'col2': 'renamed'})

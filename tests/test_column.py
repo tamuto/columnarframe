@@ -69,3 +69,9 @@ class TestColumn(unittest.TestCase):
             fcf['col1'].to_list(),
             ['1', '5', '8.5', None]
         )
+
+        fcf['col2'] = 0.5
+        self.assertEqual(
+            fcf['col2'].to_list(),
+            ['0.5', '0.5', '0.5', '0.5']
+        )
