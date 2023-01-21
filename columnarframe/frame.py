@@ -29,7 +29,7 @@ class ColumnarFrame:
 
     def __getitem__(self, name):
         if isinstance(name, list):
-            return ColumnarFrame({k: Column(self.data[k]) for k in name})
+            return ColumnarFrame({k: self.data[k] for k in name})
         return self.data[name]
 
     def __setitem__(self, name, value):
@@ -147,3 +147,6 @@ class ColumnarFrame:
         d = {k: [v[k] for v in d] for k in self.data.keys()}
 
         return ColumnarFrame(d)
+
+    def drop(self, names):
+        return ColumnarFrame({k: v for k, v in self.data.items() if not k in names})
